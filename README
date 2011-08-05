@@ -1,0 +1,50 @@
+This script will enable you to automaticaly resize images without loosing quality.
+It uses a simple math formulas to calculate the desired final size and then rerenders the image.
+
+The usage is very simples. On you HTML code just create an image and replace the src with cropimage.php?src=img/myimage.jpg&size=320x240
+
+src - the source of the image itself
+size - the size that the image should have. If the size is not directly compatible with the original size it will display a simple background and the image with the correct size on top.
+
+Example: <img src="cropimage.php?src=img/myimage.jpg&size=320x240" alt="" />
+
+If it's a square image you can just use myimage.jpg&size=320 and it will make a 320x320 image.
+
+If you don't want that nasty name (I wouldn't :P) you can add a rewite rule on your htaccess file:
+
+RewriteRule ^images\/crop\/([^/]+)\/([^/]+)\/(.+)$ cropimage.php?src=$3&size=$2&id=$1&rewrite=1 [L,QSA]
+
+With this rule you can use something like: http://www.example.com/images/crop/1234/320x180/my-awesome-image.png
+
+Now on the script itself you need to do some adjustments on line "$_GET['src'] = 'img/'.$_GET['id'].'/'.$_GET['src'];" where you point the image name to the respective folder.
+
+If you want the original size just call it like this:
+http://www.example.com/images/crop/1234/original/my-awesome-image.png
+
+Note: using an ID is very important since it will prevent image overwriting.
+
+======
+
+Using with memcache:
+
+This script works great with memcache and apc, and it's highly recommended!
+For that just set "define("USE_MEMCACHE", true);" to true (as it is on this example).
+
+Using with APC:
+
+This script works great with memcache and apc, and it's highly recommended!
+For that just set "define("USE_APC", true);" to true (as it is on this example).
+
+======
+
+Watermark
+
+This script also supports a watermark.
+If you want to have a go with the watermark just set "define("USE_WATERMARK", false);" to true and set the path to the watermark in "define("WATERMARK",'');".
+
+======
+
+Examples
+
+You can see it in action here: http://www.porvocacao.com
+In this website we're using this script in memcache mode.
